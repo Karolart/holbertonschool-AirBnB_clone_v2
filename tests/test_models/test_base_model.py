@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" Unittest for Base Class """
+""" """
 from models.base_model import BaseModel
 import unittest
 import datetime
