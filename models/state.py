@@ -1,11 +1,10 @@
 #!/usr/bin/python3
 """ State Module for HBNB project """
 import models
-from models.base_model import BaseModel
+from models.base_model import Base, BaseModel
 from models.city import City
 from os import getenv
-import sqlalchemy
-from sqlalchmey import Column, String, ForeingKey
+from sqlalchemy import Column, String
 from sqlalchemy import relationship
 
 
@@ -20,11 +19,11 @@ class State(BaseModel, Base):
 
     def __init__(self, *args, **kwargs):
         """state initialization"""
-        super().__init__(*args, **kwargs):
+        super().__init__(*args, **kwargs)
 
-    if models.storage_t ! = "db":
+    if models.storage_t != "db":
         @property
-        def cities(self)
+        def cities(self):
             """getter of city instances state list"""
             city_list = []
             all_cities = models.storage.all(City)
@@ -32,4 +31,3 @@ class State(BaseModel, Base):
                 if city.state_id == self.id:
                     city_list.append(city)
             return city_list
-    
