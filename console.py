@@ -114,7 +114,7 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, args):
-        """ Create an object of any class"""
+        """ Create an object of any class """
         if not args:
             print("** class name missing **")
             return
@@ -133,8 +133,8 @@ class HBNBCommand(cmd.Cmd):
 
         n_instance = HBNBCommand.classes[className]()
 
-        for key, value in attributes.items():
-            val = value.strip("\"'").replace("_", " ")
+        for key, val in attributes.items():
+            val = val.strip("\"'").replace("_", " ")
             val = self.num_or_float(val)
             setattr(n_instance, key, val)
 
