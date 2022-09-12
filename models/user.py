@@ -1,25 +1,32 @@
 #!/usr/bin/python3
-"""This module defines a class User"""
-from models.base_model import BaseModel, Base
+""" State Module for HBNB project """
+from os import getenv
+from models.base_model import Base, BaseModel
 from sqlalchemy import Column, String
 from sqlalchemy.orm import relationship
-from os import getenv
+from models import storage
+from models.city import City
 
 
-class User(BaseModel, Base if (getenv('HBNB_TYPE_STORAGE') == "db")
-           else object):
-    """This module defines a class User"""
+class State(BaseModel, Base):
+    """ State class """
+    __tablename__ = 'states'
+    name = Column(String(128), nullable=False)
+    cities = relationship(
+        "City",
+        backref='state',
+        cascade="all, delete",
+        passive_deletes=True)
 
-    if (getenv('HBNB_TYPE_STORAGE') == 'db'):
-        __tablename__ = 'users'
-        email = Column(String(128), nullable=False)
-        password = Column(String(128), nullable=False)
-        first_name = Column(String(128), nullable=True)
-        last_name = Column(String(128), nullable=True)
-        places = relationship('Place', backref='user', cascade='all, delete')
-        reviews = relationship('Review', backref='user', cascade='all, delete')
-    else:
-        email = ''
-        password = ''
-        first_name = ''
-        last_name = ''
+    if getenv("HBNB_TYPE_STORAGE") != "db":
+        @property
+        def cities(self):
+            """ Getter instance method """
+            all_cities = storage.all(City)
+            city_list = []
+
+            for city in all_cities.values():
+                if city.state_id == self.id:
+                    city_list.append(city)
+
+            return city_list
