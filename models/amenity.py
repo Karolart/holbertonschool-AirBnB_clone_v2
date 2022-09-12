@@ -1,21 +1,16 @@
-#!/usr/bin/python
-""" holds class Amenity"""
-import models
-from models.base_model import BaseModel, Base
-from os import getenv
-import sqlalchemy
-from sqlalchemy import Column, String
+#!/usr/bin/python3
+""" State Module for HBNB project """
 from sqlalchemy.orm import relationship
+from models.base_model import Base, BaseModel
+from sqlalchemy import Column, String, ForeignKey
 
 
 class Amenity(BaseModel, Base):
-    """Representation of Amenity """
-    if models.storage_t == 'db':
-        __tablename__ = 'amenities'
-        name = Column(String(128), nullable=False)
-    else:
-        name = ""
-
-    def __init__(self, *args, **kwargs):
-        """initializes Amenity"""
-        super().__init__(*args, **kwargs)
+    """
+    Amenity inherits from BaseModel and Base (respect the order)
+    """
+    __tablename__ = 'amenities'
+    name = Column(String(128), nullable=False)
+    places_amenities = relationship(
+        "Place",
+        secondary="place_amenity")
